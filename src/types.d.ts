@@ -8,3 +8,6 @@ export interface DiaryEntry {
 	visibility: Visibility;
 	comment: string;
 }
+
+// export type DiaryEntryWithComments = Pick<DiaryEntry, 'id' | 'date' | 'weather' | 'visibility'>;
+export type DiaryEntryWithoutComments = Omit<DiaryEntry, 'comment'>;
