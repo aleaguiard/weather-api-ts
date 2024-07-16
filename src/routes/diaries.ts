@@ -1,5 +1,7 @@
 import express from 'express';
 import * as diaryService from '../services/diaryService';
+import { validateDiaryEntry } from '../schema/diary';
+import { NewDiaryEntry } from '../types';
 
 const router = express.Router();
 
@@ -22,21 +24,28 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-	const { date, weather, visibility, comment } = req.body;
+	const validationResult = validateDiaryEntry.safeParse(req.body);
 
-	const newEntry = diaryService.addDiary({
-		date,
-		weather,
-		visibility,
-		comment,
-	});
-
-	if (!date || !weather || !visibility || !comment) {
-		res.status(400).send('Missing required fields');
+	if (!validationResult.success) {
+		res.status(400).send('Invalid diary entry: ' + validationResult.error?.message);
 		return;
 	}
 
-	res.json(newEntry);
+	const newEntry: NewDiaryEntry = {
+		date: validationResult.data.date,
+		weather: validationResult.data.weather,
+		visibility: validationResult.data.visibility,
+		comment: validationResult.data.comment ?? '',
+	};
+
+	const newDiary = diaryService.addDiary(newEntry);
+
+	if (!newDiary) {
+		res.status(500).send('Failed to add diary');
+		return;
+	}
+
+	res.json(newDiary);
 });
 
 export default router;
