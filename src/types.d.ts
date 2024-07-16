@@ -11,3 +11,4 @@ export interface DiaryEntry {
 
 // export type DiaryEntryWithComments = Pick<DiaryEntry, 'id' | 'date' | 'weather' | 'visibility'>;
 export type DiaryEntryWithoutComments = Omit<DiaryEntry, 'comment'>;
+export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;

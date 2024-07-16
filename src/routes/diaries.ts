@@ -21,8 +21,22 @@ router.get('/:id', (req, res) => {
 	res.send(diary);
 });
 
-router.post('/', (_req, res) => {
-	res.send('Posting Diaries');
+router.post('/', (req, res) => {
+	const { date, weather, visibility, comment } = req.body;
+
+	const newEntry = diaryService.addDiary({
+		date,
+		weather,
+		visibility,
+		comment,
+	});
+
+	if (!date || !weather || !visibility || !comment) {
+		res.status(400).send('Missing required fields');
+		return;
+	}
+
+	res.json(newEntry);
 });
 
 export default router;

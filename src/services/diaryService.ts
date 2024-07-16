@@ -1,4 +1,4 @@
-import { DiaryEntry, DiaryEntryWithoutComments } from '../types';
+import { DiaryEntry, DiaryEntryWithoutComments, NewDiaryEntry } from '../types';
 import diaryData from './diaries.json';
 
 const diaries: Array<DiaryEntry> = diaryData as Array<DiaryEntry>;
@@ -18,4 +18,12 @@ export const getById = (id: number): DiaryEntry | undefined => {
 	return diaries.find((diary) => diary.id === id);
 };
 
-export const addEntry = () => null;
+export const addDiary = (NewDiaryEntry: NewDiaryEntry): DiaryEntry => {
+	const id = diaries.length + 1;
+	const NewDiary = {
+		id,
+		...NewDiaryEntry,
+	};
+	diaries.push(NewDiary);
+	return diaries[id - 1];
+};
