@@ -14,7 +14,7 @@ GET http://localhost:3000/api/diaries
 
 ###
 
-GET http://localhost:3000/api/diaries/1
+GET http://localhost:3000/api/diaries/5
 
 ###
 
@@ -22,14 +22,14 @@ GET http://localhost:3000/api/diaries/no-comments
 
 ###
 
-PUT http://localhost:3000/api/diaries/2
+PUT http://localhost:3000/api/diaries/5
 Content-Type: application/json
 
 {
   "date": "2024-01-02",
   "weather": "rainy",
   "visibility": "ok",
-  "comment": "Cambiando el 2"
+  "comment": "Testing put method"
 }
 
 ###

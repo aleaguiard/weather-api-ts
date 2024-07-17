@@ -1,7 +1,15 @@
 import { DiaryEntry, DiaryEntryWithoutComments, NewDiaryEntry } from '../types';
-import diaryData from './diaries.json';
+import { readJson } from '../utils/Jsonutils';
 
-const diaries: Array<DiaryEntry> = diaryData as Array<DiaryEntry>;
+let diaries: Array<DiaryEntry> = [];
+
+export const loadDiaries = async (): Promise<void> => {
+	try {
+		diaries = (await readJson('./src/services/diaries.json')) as Array<DiaryEntry>;
+	} catch (error) {
+		console.error('Error loading diaries:', error);
+	}
+};
 
 export const getEntries = (): DiaryEntry[] => diaries;
 
@@ -18,7 +26,7 @@ export const getById = (id: number): DiaryEntry | undefined => {
 	return diaries.find((diary) => diary.id === id);
 };
 
-export const addDiary = (newDiaryEntry: NewDiaryEntry): DiaryEntry => {
+export const addDiary = (newDiaryEntry: NewDiaryEntry): DiaryEntry | undefined => {
 	const id = diaries.length + 1;
 	const newDiary = {
 		id,
