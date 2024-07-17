@@ -1,5 +1,5 @@
 import { DiaryEntry, DiaryEntryWithoutComments, NewDiaryEntry } from '../types';
-import { readJson } from '../utils/Jsonutils';
+import { readJson } from '../utils/jsonUtils';
 
 let diaries: Array<DiaryEntry> = [];
 
@@ -28,7 +28,10 @@ export const getById = (id: number): DiaryEntry | undefined => {
 
 export const addDiary = (newDiaryEntry: NewDiaryEntry): DiaryEntry | undefined => {
 	const id = diaries.length + 1;
-	const newDiary = {
+	if (diaries.some((diary) => diary.id === id)) {
+		throw new Error(`Diary entry with ID ${id} already exists.`);
+	}
+	const newDiary: DiaryEntry = {
 		id,
 		...newDiaryEntry,
 	};
@@ -40,11 +43,12 @@ export const updateDiary = (
 	id: number,
 	updatedDiaryEntry: NewDiaryEntry
 ): DiaryEntry | undefined => {
-	const index = diaries.findIndex((diary) => diary.id === id);
-	if (index === -1) {
+	const existingDiary = getById(id);
+	if (!existingDiary) {
 		return undefined;
 	}
-	const updatedDiary = { id, ...updatedDiaryEntry };
+	const updatedDiary: DiaryEntry = { id, ...updatedDiaryEntry };
+	const index = diaries.findIndex((diary) => diary.id === id);
 	diaries[index] = updatedDiary;
 	return updatedDiary;
 };
