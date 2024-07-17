@@ -1,9 +1,11 @@
 import express from 'express';
 import diaryRouter from './routes/diaries';
 import { loadDiaries } from './services/diaryService';
+import loggingMiddleware from './middleware/loggingMiddleware';
 
 const app = express();
 app.use(express.json());
+app.use(loggingMiddleware);
 
 const PORT = process.env.PORT || 3000;
 
