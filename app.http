@@ -22,16 +22,16 @@ GET http://localhost:3000/api/diaries/no-comments
 
 ###
 
-POST http://localhost:3000/api/diaries/1
+PUT http://localhost:3000/api/diaries/2
 Content-Type: application/json
 
 {
   "date": "2024-01-02",
   "weather": "rainy",
-  "visibility": "bad",
-  "comment": "I hate this weather"
+  "visibility": "ok",
+  "comment": "Cambiando el 2"
 }
 
 ###
 
-DELETE http://localhost:3000/api/diaries/1
+DELETE http://localhost:3000/api/diaries/5

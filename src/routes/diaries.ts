@@ -1,7 +1,7 @@
 import express from 'express';
 import * as diaryService from '../services/diaryService';
 import { validateDiaryEntry } from '../schema/diary';
-import { NewDiaryEntry } from '../types';
+import { DiaryEntry, NewDiaryEntry } from '../types';
 
 const router = express.Router();
 
@@ -48,11 +48,32 @@ router.post('/', (req, res) => {
 	res.json(newDiary);
 });
 
-// TODO: implement put method
-router.put('/:id', (_req, res) => {
-	// TODO: validate the request body
-	// diaryService.updateDiary(req.params.id, req.body);
-	res.sendStatus(200);
+router.put('/:id', (req, res) => {
+	const validationResult = validateDiaryEntry.safeParse(req.body);
+
+	if (!validationResult.success) {
+		res.status(400).send('Invalid diary entry: ' + validationResult.error?.message);
+		return;
+	}
+
+	const idUpdate = Number(req.params.id);
+
+	const updatedEntry: DiaryEntry = {
+		id: idUpdate,
+		date: validationResult.data.date,
+		weather: validationResult.data.weather,
+		visibility: validationResult.data.visibility,
+		comment: validationResult.data.comment ?? '',
+	};
+
+	const updatedDiary = diaryService.updateDiary(idUpdate, updatedEntry);
+
+	if (!updatedDiary) {
+		res.status(404).send('Diary not found');
+		return;
+	}
+
+	res.json(updatedDiary);
 });
 
 router.delete('/:id', (req, res) => {

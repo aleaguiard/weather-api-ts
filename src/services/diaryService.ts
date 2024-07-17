@@ -18,25 +18,32 @@ export const getById = (id: number): DiaryEntry | undefined => {
 	return diaries.find((diary) => diary.id === id);
 };
 
-export const addDiary = (NewDiaryEntry: NewDiaryEntry): DiaryEntry => {
+export const addDiary = (newDiaryEntry: NewDiaryEntry): DiaryEntry => {
 	const id = diaries.length + 1;
-	const NewDiary = {
+	const newDiary = {
 		id,
-		...NewDiaryEntry,
+		...newDiaryEntry,
 	};
-	diaries.push(NewDiary);
-	return diaries[id - 1];
+	diaries.push(newDiary);
+	return newDiary;
 };
 
-// export const updateDiary = (id: number, NewDiaryEntry: NewDiaryEntry): DiaryEntry => {
-// 	const updatedDiary = {
-// 		...getById(id),
-// 		...NewDiaryEntry,
-// 	};
-// 	diaries[id - 1] = updatedDiary;
-// 	return updatedDiary;
-// };
+export const updateDiary = (
+	id: number,
+	updatedDiaryEntry: NewDiaryEntry
+): DiaryEntry | undefined => {
+	const index = diaries.findIndex((diary) => diary.id === id);
+	if (index === -1) {
+		return undefined;
+	}
+	const updatedDiary = { id, ...updatedDiaryEntry };
+	diaries[index] = updatedDiary;
+	return updatedDiary;
+};
 
 export const deleteDiary = (id: number): void => {
-	diaries.splice(id - 1, 1);
+	const index = diaries.findIndex((diary) => diary.id === id);
+	if (index !== -1) {
+		diaries.splice(index, 1);
+	}
 };
