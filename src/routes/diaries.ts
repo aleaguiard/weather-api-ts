@@ -48,4 +48,17 @@ router.post('/', (req, res) => {
 	res.json(newDiary);
 });
 
+// TODO: implement put method
+router.put('/:id', (_req, res) => {
+	// TODO: validate the request body
+	// diaryService.updateDiary(req.params.id, req.body);
+	res.sendStatus(200);
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+	diaryService.deleteDiary(Number(id));
+	res.sendStatus(200);
+});
+
 export default router;

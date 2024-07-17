@@ -27,3 +27,16 @@ export const addDiary = (NewDiaryEntry: NewDiaryEntry): DiaryEntry => {
 	diaries.push(NewDiary);
 	return diaries[id - 1];
 };
+
+// export const updateDiary = (id: number, NewDiaryEntry: NewDiaryEntry): DiaryEntry => {
+// 	const updatedDiary = {
+// 		...getById(id),
+// 		...NewDiaryEntry,
+// 	};
+// 	diaries[id - 1] = updatedDiary;
+// 	return updatedDiary;
+// };
+
+export const deleteDiary = (id: number): void => {
+	diaries.splice(id - 1, 1);
+};

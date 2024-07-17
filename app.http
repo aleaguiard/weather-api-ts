@@ -19,3 +19,19 @@ GET http://localhost:3000/api/diaries/1
 ###
 
 GET http://localhost:3000/api/diaries/no-comments
+
+###
+
+POST http://localhost:3000/api/diaries/1
+Content-Type: application/json
+
+{
+  "date": "2024-01-02",
+  "weather": "rainy",
+  "visibility": "bad",
+  "comment": "I hate this weather"
+}
+
+###
+
+DELETE http://localhost:3000/api/diaries/1
